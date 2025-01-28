@@ -100,10 +100,11 @@ const handleSelect = (info: any) => {
 };
 
 // Configuración del calendario
-const calendarOptions = ref<optionCalendar>({
+const calendarOptions = ref<optionCalendar>(<optionCalendar>{
   plugins: [DayGridPlugin, InteractionPlugin, TimeGridPlugin],
   headerToolbar: {
     right: 'prev today next',
+    center: 'title',
   },
   initialView: 'dayGridMonth',
   selectable: true,
@@ -148,7 +149,7 @@ const reservar = async (start: Date, end: Date) => {
         withCredentials: true,
       });
       await obtenerReservas();
-      info.value =await respuesta.data;
+      info.value = await respuesta.data;
     } catch (error: any) {
       info.value = error.response.data.message;
     }
@@ -170,9 +171,10 @@ const enviaComentario = async () => {
     propiedad_id: propiedad.value?.id,
   };
   try {
-    const respuesta = await api.post('/opinion', calificacion, {
+    await api.post('/opinion', calificacion, {
       withCredentials: true,
     });
+
     estadoComentario.value =
       'Tu comentario ya ha sido publicado, muchas gracias por tu valoración.';
     comentario.value = '';
@@ -196,7 +198,7 @@ onMounted(() => {
 <template>
   <div class="propiedad">
     <div class="container-fluid d-flex">
-      <div class="row d-flex justify-content-center ">
+      <div class="row d-flex justify-content-center">
         <div class="col-md-4 col-sm-12">
           <h1 class="propiedad__titulo h3 text-center p-2 m-2 rounded-3" v-if="propiedad">
             {{ propiedad.titulo }}
@@ -227,7 +229,7 @@ onMounted(() => {
                 :alt="comodidad.comodidade.nombre"
                 style="width: 30px; height: 30px; object-fit: contain"
               />
-              <span class="comodidad-nombre text-center" style="font-size: 10px; color: #333">
+              <span class="comodidad-nombre text-center" style="font-size: 10px; color: #333333">
                 {{ comodidad.comodidade.nombre }}
               </span>
             </div>
@@ -345,7 +347,7 @@ onMounted(() => {
         <div class="col-12">
           <h3 class="mb-4">Opiniones de nuestros clientes</h3>
           <div
-            v-for="opinion in propiedad?.opinions.slice(0,5)"
+            v-for="opinion in propiedad?.opinions.slice(0, 5)"
             :key="opinion.id"
             class="card mb-3 shadow-sm border-0"
           >
@@ -406,7 +408,10 @@ onMounted(() => {
           <p v-if="info === ''" class="text-center text-muted fs-5 fw-bold">
             ¡Haz tu reserva, nos contactaremos contigo al instante!
           </p>
-          <p v-else-if="info !== '' && typeof info !== 'object' " class="info__errores alert alert-danger text-center">
+          <p
+            v-else-if="info !== '' && typeof info !== 'object'"
+            class="info__errores alert alert-danger text-center"
+          >
             {{ info }}
           </p>
           <div class="reservas__ok" v-else>
@@ -418,33 +423,43 @@ onMounted(() => {
               <span class="fw-normal">{{ propiedad?.titulo }}</span>
             </div>
             <hr />
-            <div class="mb-3 d-flex align-items-center">
+            <div v-if="typeof info === 'object'" class="mb-3 d-flex align-items-center">
               <CheckCircleIcon class="icono__check text-success me-2" />
-              <span>Has reservado desde el <strong>{{ info.fecha_inicio.split('T')[0] }}</strong> hasta el <strong>{{
-                  info.fecha_fin.split('T')[0] }}</strong></span>
+              <span
+                >Has reservado desde el <strong>{{ info.fecha_inicio.split('T')[0] }}</strong> hasta
+                el <strong>{{ info.fecha_fin.split('T')[0] }}</strong></span
+              >
             </div>
-            <div class="mb-3 d-flex align-items-center">
+            <div v-if="typeof info === 'object'" class="mb-3 d-flex align-items-center">
               <CheckCircleIcon class="icono__check text-success me-2" />
-              <span>Con la tarifa del mes de <strong>{{ new Date(info.fecha_inicio).toLocaleDateString('es-ES', { month: 'long' }) }}</strong></span>
+              <span
+                >Con la tarifa del mes de
+                <strong>{{
+                  new Date(info.fecha_inicio).toLocaleDateString('es-ES', { month: 'long' })
+                }}</strong></span
+              >
             </div>
-            <div class="mb-3 d-flex align-items-center">
+            <div v-if="typeof info === 'object'" class="mb-3 d-flex align-items-center">
               <CheckCircleIcon class="icono__check text-success me-2" />
-              <span>Por un total de <strong>{{ info.dias_reserva }}</strong> días</span>
+              <span
+                >Por un total de <strong>{{ info.dias_reserva }}</strong> días</span
+              >
             </div>
-            <div class="mb-3 d-flex align-items-center">
+            <div v-if="typeof info === 'object'" class="mb-3 d-flex align-items-center">
               <CheckCircleIcon class="icono__check text-success me-2" />
-              <span>Con un costo total de <strong>{{ info.precio_total }}</strong> pesos</span>
+              <span
+                >Con un costo total de <strong>{{ info.precio_total }}</strong> pesos</span
+              >
             </div>
-            <div class="d-flex align-items-center">
+            <div v-if="typeof info === 'object'" class="d-flex align-items-center">
               <CheckCircleIcon class="icono__check text-success me-2" />
-              <span>La reserva se encuentra
-        <span class="badge bg-warning text-dark ms-1">{{ info.estado }}</span>
-      </span>
+              <span
+                >La reserva se encuentra
+                <span class="badge bg-warning text-dark ms-1">{{ info.estado }}</span>
+              </span>
             </div>
           </div>
         </div>
-
-
       </div>
     </div>
   </div>
@@ -654,20 +669,20 @@ onMounted(() => {
   padding: 10px;
   font-size: 2.1em;
 }
-.icono__check{
+
+.icono__check {
   width: 40px;
   height: 40px;
 }
-.propiedad__imagenes{
-  transition: 0.3s ;
+
+.propiedad__imagenes {
+  transition: 0.3s;
   border: 2px solid #cdc9c9;
   padding: 2px;
-
 }
 
-.propiedad__imagenes:hover{
+.propiedad__imagenes:hover {
   transform: scale(1.2);
   border: 2px solid black;
 }
-
 </style>
