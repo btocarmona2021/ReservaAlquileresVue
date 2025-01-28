@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import PropiedadesView from '@/views/PropiedadesView.vue';
-import ReservasView from '@/views/ReservasAdmin.vue';
 import LoginView from '@/views/LoginView.vue';
 import RegistroView from '@/views/RegistroView.vue';
 import AcercaView from '@/views/AcercaView.vue';
@@ -97,18 +96,15 @@ const router = createRouter({
           component: AddTarifa,
         },
         {
-         path:'asigna-comodidad',
-         name:'dashboard-asigna-comodidad',
-         component:AssignComodidad
-        }
-        ,
+          path: 'asigna-comodidad',
+          name: 'dashboard-asigna-comodidad',
+          component: AssignComodidad,
+        },
         {
-          path:'reservas',
-          name:'dashboard-reservas',
-          component:ReservasAdmin
-        }
-
-        ,
+          path: 'reservas',
+          name: 'dashboard-reservas',
+          component: ReservasAdmin,
+        },
         // Agrega más rutas hijas según sea necesario
       ],
     },

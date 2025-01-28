@@ -20,7 +20,7 @@ export interface PropiedadComodidad {
 
 export interface Comodidad {
   nombre: string;
-  icono:string;
+  icono: string;
 }
 
 export interface ImagenesPropiedad {

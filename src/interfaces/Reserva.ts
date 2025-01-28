@@ -21,4 +21,3 @@ export interface Propiedade {
   titulo: string;
   tipo_propiedad: string;
 }
-
