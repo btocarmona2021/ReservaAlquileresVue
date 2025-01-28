@@ -3,25 +3,25 @@ import AsideComponent from "@/components/Aside/AsideComponent.vue";
 </script>
 
 <template>
-    <div class="dashboard">
-        <AsideComponent class="aside--component" />
+  <div class="dashboard">
+    <AsideComponent class="aside--component" />
 
-        <div class="content">
-            <router-view />
-        </div>
+    <div class="content">
+      <router-view />
     </div>
+  </div>
 </template>
 
 <style scoped>
 .dashboard {
-    display: flex;
+  display: flex;
 }
 
 .aside--component {
-    width: 14%;
+  width: 14%;
 }
 
 .content {
-    width: 84%;
+  width: 84%;
 }
 </style>

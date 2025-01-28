@@ -16,6 +16,7 @@ import AddTarifa from '@/views/AddTarifa.vue';
 import AddComodidad from '@/views/AddComodidad.vue';
 import AssignComodidad from '@/views/AssignComodidad.vue';
 import ReservasAdmin from '@/views/ReservasAdmin.vue';
+import AddReserva from '@/views/AddReserva.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -84,6 +85,11 @@ const router = createRouter({
           path: 'addpropiedad',
           name: 'dashboard-addpropiedad',
           component: AddPropiedad,
+        },
+        {
+          path: 'addreserva',
+          name: 'dashboard-addreserva',
+          component: AddReserva,
         },
         {
           path: 'addcomodidad',
