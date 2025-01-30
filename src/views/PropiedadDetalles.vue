@@ -21,6 +21,7 @@ import {
 import type { PropiedadDetalles } from "@/interfaces/PropiedadDetalles.ts";
 import type { optionCalendar } from "@/interfaces/OptionCalendar.ts";
 import type { Reserva } from "@/interfaces/Reserva.ts";
+import router from "@/router";
 
 // Variables y referencias
 const propiedad = ref<PropiedadDetalles | null>(null);
@@ -207,6 +208,13 @@ const enviaComentario = async () => {
 
     estadoComentario.value =
       "Tu comentario ya ha sido publicado, muchas gracias por tu valoración.";
+    Swal.fire({
+      title: "Gracias por tu comentario",
+      text: estadoComentario.value,
+      icon: "success",
+      timer: 3000,
+      timerProgressBar: true,
+    });
     comentario.value = "";
     rating.value = 0;
 
@@ -215,6 +223,13 @@ const enviaComentario = async () => {
     }, 2000);
   } catch (error: any) {
     estadoComentario.value = error.response.data.message;
+    Swal.fire({
+      title: "Error",
+      text: estadoComentario.value,
+      icon: "error",
+      timer: 2500,
+      timerProgressBar: true,
+    });
   }
 };
 
@@ -543,15 +558,37 @@ onMounted(() => {
                 Para confirmar tu reserva debes abonar el 15% - Total: $
                 {{ Number(info.precio_total) * 0.15 }} pesos
               </p>
-              <a
-                class="d-lg-flex justify-content-center align-items-center mx-auto"
-                href="https://link.mercadopago.com.ar/alquileresgallardo"
-                target="_blank"
-                ><img
-                  src="../../public/mercado-mobile.png"
-                  width="150px"
-                  alt="Mercado Pago"
-              /></a>
+              <div
+                class="row d-flex justify-content-between align-items-center mx-auto"
+              >
+                <a
+                  class="col-md-4 d-lg-flex justify-content-center align-items-center mx-auto"
+                  href="https://link.mercadopago.com.ar/alquileresgallardo"
+                  target="_blank"
+                  ><img
+                    src="../../public/mercado-mobile.png"
+                    width="150px"
+                    alt="Mercado Pago"
+                /></a>
+                <div class="col-md-6">
+                  <div class="row">
+                    <a
+                      href="https://wa.me/+5402920286288"
+                      target="_blank"
+                      class="col-md-6 whatsapp-icon"
+                    >
+                      <img src="../../public/whatsapp.png" alt="WhatsApp" />
+                    </a>
+                    <a
+                      href="mailto:btocarmona@gmail.com?subject=He%20realizado%20una%20reserva&body=Cuerpo%20del%20mensaje"
+                      target="_blank"
+                      class="col-md-6 whatsapp-icon"
+                    >
+                      <img src="../../public/email.png" alt="WhatsApp" />
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -593,13 +630,6 @@ onMounted(() => {
           cols="20"
           rows="5"
         ></textarea>
-        <p
-          v-if="estadoComentario !== ''"
-          class="alert alert-info mt-3"
-          role="alert"
-        >
-          {{ estadoComentario }}
-        </p>
         <button
           @click="enviaComentario"
           type="submit"
@@ -701,7 +731,6 @@ onMounted(() => {
   font-weight: bold;
   text-transform: uppercase;
 }
-
 .fc-toolbar-title {
   font-size: 1.5rem;
   font-weight: 600;

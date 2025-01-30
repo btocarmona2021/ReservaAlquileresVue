@@ -31,13 +31,16 @@ const login = async () => {
 
 <template>
   <div class="contenedor">
-    <form class="form" action="">
+    <form
+      class="row d-flex flex-column justify-content-center align-items-center form"
+      action=""
+    >
       <label for="email">Ingres su mail: </label>
 
       <div class="contenedor__input">
         <UserIcon class="icono__login" />
         <input
-          class="form__input"
+          class="form-control form__input"
           v-model="email"
           type="text"
           name="email"
@@ -51,7 +54,7 @@ const login = async () => {
         <KeyIcon class="icono__login" />
         <input
           v-model="password"
-          class="form__input"
+          class="form-control form__input"
           type="password"
           name="contrasena_encriptada"
           id="password"
@@ -67,7 +70,7 @@ const login = async () => {
       </p>
       <input
         @click="login"
-        class="form__btn btn__login"
+        class="btn btn-dark"
         type="button"
         value="Ingresar"
       />
@@ -90,7 +93,7 @@ const login = async () => {
   align-items: center;
   padding: 20px;
   width: 400px;
-  height: 200px;
+  height: 360px;
   gap: 10px;
   margin: 20px auto;
   background-color: #3498db;
@@ -104,7 +107,7 @@ form:hover {
 .form__input {
   font-family: Oswald, sans-serif;
   font-size: 1em;
-  width: 80%;
+  width: 100%;
   border-radius: 5px;
   padding-left: 10px;
 }
@@ -114,6 +117,7 @@ form:hover {
   padding: 5px;
   border-radius: 5px;
   color: whitesmoke;
+   text-align: center;
 }
 
 .info__error {
@@ -121,6 +125,7 @@ form:hover {
   padding: 5px;
   border-radius: 5px;
   color: whitesmoke;
+  text-align: center;
 }
 
 .btn__login {
@@ -143,7 +148,7 @@ form:hover {
 }
 
 .contenedor__input {
-  width: 80%;
+  width: 100;
   display: flex;
   align-items: center;
   gap: 0 10px;

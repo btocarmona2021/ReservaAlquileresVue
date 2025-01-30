@@ -3,7 +3,8 @@ import api from "@/axios/axios.ts";
 import { onMounted, ref } from "vue";
 import type { Comodidad } from "@/interfaces/Comodidad.ts";
 import router from "@/router"; // Asegúrate de tener la interfaz de comodidad
-
+import Swal from "sweetalert2";
+import { PlusCircleIcon, TrashIcon } from "@heroicons/vue/24/solid";
 // Estado para almacenar las comodidades
 const comodidades = ref<Comodidad[]>([]);
 const info = ref("");
@@ -27,7 +28,19 @@ onMounted(() => {
 const actualizarComodidad = (id: number) => {};
 
 const eliminarComodidad = async (id: number) => {
-  if (confirm("¿Estás seguro de que deseas eliminar esta comodidad?")) {
+  const result = await Swal.fire({
+    title: "¿Estás seguro de que deseas eliminar esta comodidad?",
+    text:
+      "Este cambio será permanente y no estara disponible en otras propiedades.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, eliminar comodidad",
+    cancelButtonText: "No, cancelar",
+  });
+
+  if (result.isConfirmed) {
     try {
       const respuesta = await api.delete(`comodidad/${id}`, {
         withCredentials: true,
@@ -39,8 +52,16 @@ const eliminarComodidad = async (id: number) => {
       setTimeout(() => {
         info.value = "";
       }, 2000);
-    } catch (error) {
-      console.error("Error al eliminar la comodidad:", error);
+    } catch (error: any) {
+      info.value = error.response.data.message;
+      Swal.fire({
+        title: "Error",
+        text: info.value,
+        icon: "error",
+      });
+      setTimeout(() => {
+        router.push({ name: "login" });
+      });
     }
   }
 };
@@ -53,9 +74,9 @@ const addcomodidad = () => {
 <template>
   <div>
     <div class="addUsuarios">
-      <button @click="addcomodidad" class="btn btn-info m-2">
-        Agregar Comodidad
-      </button>
+      <a class="addcomodidad" @click="addcomodidad">
+        <PlusCircleIcon class="icono__agregar" /> AGREGAR COMODIDAD
+      </a>
       <p :class="{ info: info != '' }">{{ info }}</p>
     </div>
     <table class="tabla-comodidades">
@@ -85,12 +106,9 @@ const addcomodidad = () => {
             >
               Actualizar
             </button>
-            <button
-              @click="eliminarComodidad(comodidad.id)"
-              class="btn btn-sm btn-danger m-2"
-            >
-              Eliminar
-            </button>
+            <a @click="eliminarComodidad(comodidad.id)">
+              <TrashIcon class="icono__delete" />
+            </a>
           </td>
         </tr>
         <tr v-if="comodidades.length === 0">
@@ -151,5 +169,22 @@ const addcomodidad = () => {
 
 .tabla-imagen {
   width: 32px;
+}
+.icono__delete {
+  width: 28px;
+  cursor: pointer;
+  color: red;
+}
+.icono__agregar {
+  width: 48px;
+  height: 48px;
+  color: #3498db;
+  margin: 10px;
+  cursor: pointer;
+}
+.addcomodidad {
+  font-family: Oswald, sans-serif;
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>

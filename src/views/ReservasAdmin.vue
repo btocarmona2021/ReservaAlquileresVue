@@ -13,7 +13,6 @@ const obtenerReservas = async () => {
       withCredentials: true,
     });
     reservas.value = respuesta.data;
-    console.log(reservas);
   } catch (error) {
     console.log(error);
   }
@@ -23,7 +22,18 @@ onMounted(() => {
   obtenerReservas();
 });
 const eliminarReserva = async (id: number) => {
-  if (confirm("¿Estás seguro de que deseas eliminar esta reserva?")) {
+  const result = await Swal.fire({
+    title: "¿Estás seguro de que deseas eliminar esta reserva?",
+    text: "Este cambio será permanente.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "No, cancelar",
+  });
+
+  if (result.isConfirmed) {
     try {
       // Llamada al endpoint para eliminar el usuario
       const respuesta = await api.delete(`/reserva/${id}`, {
@@ -32,6 +42,14 @@ const eliminarReserva = async (id: number) => {
       // Filtrar al usuario eliminado de la lista local
       reservas.value = reservas.value.filter((reserva) => reserva.id !== id);
       info.value = respuesta.data.message;
+      Swal.fire({
+        title: "Eliminar reserva",
+        text: info.value,
+        icon: "success",
+        timer:3000,
+        timerProgressBar:true,
+
+      });
       setTimeout(() => {
         info.value = "";
       }, 2000);
@@ -42,17 +60,76 @@ const eliminarReserva = async (id: number) => {
 };
 
 const addReserva = () => {
-  router.push({name:'dashboard-addreserva'})
+  router.push({ name: "dashboard-addreserva" });
+};
+
+import Swal from "sweetalert2";
+import { PlusCircleIcon, TrashIcon } from "@heroicons/vue/24/solid";
+
+const actualizarReserva = async (ev: Event, id: number) => {
+  const elemento = ev.target as HTMLSelectElement;
+  const valorAnterior = elemento.value; // Guardamos el valor antes de cambiar
+
+  // Usamos sweetalert2 para la confirmación
+  const result = await Swal.fire({
+    title: "¿Estás seguro de que deseas actualizar esta reserva?",
+    text: "Este cambio será permanente.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, actualizar",
+    cancelButtonText: "No, cancelar",
+  });
+
+  if (result.isConfirmed) {
+    // Si el usuario confirma la actualización
+    try {
+      const estado = {
+        estado: elemento.value,
+      };
+      const respuesta = await api.patch(`/reserva/${id}`, estado, {
+        withCredentials: true,
+      });
+      obtenerReservas();
+
+      info.value = respuesta.data.message;
+      Swal.fire({
+        title:'Actualizar',
+        text:info.value,
+        icon:'info',
+        timer:3000,
+        timerProgressBar:true,
+      })
+
+      setTimeout(() => {
+        info.value = "";
+      }, 2000);
+    } catch (error: any) {
+      info.value = error.response.data.message;
+      Swal.fire({
+        title: "Error",
+        text: info.value,
+        icon: "error",
+      });
+      setTimeout(() => {
+        info.value = "";
+        router.push({ name: "login" });
+      }, 2000);
+    }
+  } else {
+    // Si el usuario cancela, restauramos el valor original
+    elemento.value = valorAnterior === "pendiente" ? "confirmada" : "pendiente";
+  }
 };
 </script>
 
 <template>
   <div>
     <div class="addReservas">
-      <button @click="addReserva" class="btn btn-info m-2">
-        Agregar Reserva
-      </button>
-      <p :class="{ info: info != '' }">{{ info }}</p>
+      <a class="addreserva" @click="addReserva">
+        <PlusCircleIcon class="icono__agregar" /> AGREGAR RESERVA
+      </a>
     </div>
     <table class="tabla-reservas">
       <thead>
@@ -86,21 +163,25 @@ const addReserva = () => {
                 : 'cancelada'
             "
           >
-            {{ reserva.estado }}
+            <select
+              @change="(ev) => actualizarReserva(ev, reserva.id)"
+              id="estado"
+            >
+              <option :value="reserva.estado">
+                {{ reserva.estado.toUpperCase() }}
+              </option>
+              <option value="pendiente" v-if="reserva.estado !== 'pendiente'">
+                PENDIENTE
+              </option>
+              <option value="confirmada" v-if="reserva.estado !== 'confirmada'">
+                CONFIRMADA
+              </option>
+            </select>
           </td>
           <td>
-            <button
-              @click="verDetalles(reserva.id)"
-              class="btn btn-sm btn-info"
-            >
-              Ver Detalles
-            </button>
-            <button
-              @click="eliminarReserva(reserva.id)"
-              class="btn btn-sm btn-danger m-2"
-            >
-              Eliminar
-            </button>
+            <a @click="eliminarReserva(reserva.id)">
+              <TrashIcon class="icono__delete" />
+            </a>
           </td>
         </tr>
         <!-- <tr v-if="usuarios.length === 0">
@@ -188,5 +269,23 @@ const addReserva = () => {
   color: whitesmoke;
   background-color: darkred;
   text-transform: uppercase;
+}
+
+.icono__delete {
+  width: 28px;
+  cursor: pointer;
+  color: red;
+}
+.icono__agregar {
+  width: 48px;
+  height: 48px;
+  color: #3498db;
+  margin: 10px;
+  cursor: pointer;
+}
+.addreserva {
+  font-family: Oswald, sans-serif;
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>

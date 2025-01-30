@@ -3,6 +3,8 @@ import api from "@/axios/axios.ts";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import type { Usuario } from "@/interfaces/Usuario.ts"; // Asegúrate de tener esta interfaz definida
+import { PlusCircleIcon } from "@heroicons/vue/24/solid";
+import Swal from "sweetalert2";
 
 // Estado para almacenar los usuarios
 const usuarios = ref<Usuario[]>([]);
@@ -41,12 +43,25 @@ const eliminarUsuario = async (id: number) => {
       // Filtrar al usuario eliminado de la lista local
       usuarios.value = usuarios.value.filter((usuario) => usuario.id !== id);
       info.value = respuesta.data.message;
+      Swal.fire({
+        title: "Eliminar usuario",
+        text: info.value,
+        icon: "success",
+        timer: 3000,
+        timerProgressBar: true,
+      });
       setTimeout(() => {
         info.value = "";
       }, 2000);
-    } catch (error) {
-      console.error("Error al eliminar el usuario:", error);
-      alert("Ocurrió un error al intentar eliminar el usuario");
+    } catch (error: any) {
+      info.value = error.response.data.message;
+      Swal.fire({
+        title: "Eliminar usuario",
+        text: info.value,
+        icon: "success",
+        timer: 3000,
+        timerProgressBar: true,
+      });
     }
   }
 };
@@ -60,9 +75,9 @@ const addusuario = () => {
 <template>
   <div>
     <div class="addUsuarios">
-      <button @click="addusuario" class="btn btn-info m-2">
-        Agregar Usuario
-      </button>
+      <a class="addusuario" @click="addusuario">
+        <PlusCircleIcon class="icono__agregar" /> AGREGAR USUARIO
+      </a>
       <p :class="{ info: info != '' }">{{ info }}</p>
     </div>
     <table class="tabla-usuarios">
@@ -173,5 +188,17 @@ const addusuario = () => {
   padding: 5px 10px;
   width: 250px;
   margin: 2px;
+}
+.icono__agregar {
+  width: 48px;
+  height: 48px;
+  color: #3498db;
+  margin: 10px;
+  cursor: pointer;
+}
+.addusuario {
+  font-family: Oswald, sans-serif;
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>

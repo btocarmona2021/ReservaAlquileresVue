@@ -17,6 +17,7 @@ import AddComodidad from '@/views/AddComodidad.vue';
 import AssignComodidad from '@/views/AssignComodidad.vue';
 import ReservasAdmin from '@/views/ReservasAdmin.vue';
 import AddReserva from '@/views/AddReserva.vue';
+import OpinionesAdmin from '@/views/OpinionesAdmin.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -110,6 +111,11 @@ const router = createRouter({
           path: 'reservas',
           name: 'dashboard-reservas',
           component: ReservasAdmin,
+        },
+        {
+          path: 'comentarios',
+          name: 'dashboard-comentarios',
+          component: OpinionesAdmin,
         },
         // Agrega más rutas hijas según sea necesario
       ],

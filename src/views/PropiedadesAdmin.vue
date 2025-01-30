@@ -3,6 +3,8 @@ import api from "@/axios/axios.ts";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import type { Propiedad } from "@/interfaces/Propiedad.ts";
+import { TrashIcon, PlusCircleIcon } from "@heroicons/vue/24/solid";
+import Swal from "sweetalert2";
 
 //Estado para almacenar las propiedades
 const propiedades = ref<Propiedad[]>([]);
@@ -13,7 +15,6 @@ const obtenerPropiedades = async () => {
     const respuesta = await api.get("propiedad", {
       withCredentials: true,
     });
-
     propiedades.value = respuesta.data;
   } catch (error: any) {
     if (error.response && error.response.status === 401) {
@@ -24,7 +25,17 @@ const obtenerPropiedades = async () => {
 };
 
 const eliminarPropiedad = async (id: number) => {
-  if (confirm("¿Estás seguro de que deseas eliminar esta propiedad?")) {
+  const result = await Swal.fire({
+    title: "¿Estás seguro de que deseas eliminar esta Propiedad?",
+    text: "Este cambio será permanente.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, eliminar Propiedad",
+    cancelButtonText: "No, cancelar",
+  });
+  if (result.isConfirmed) {
     try {
       const respuesta = await api.delete(`propiedad/${id}`, {
         withCredentials: true,
@@ -35,11 +46,24 @@ const eliminarPropiedad = async (id: number) => {
       );
 
       info.value = respuesta.data.message;
+      Swal.fire({
+        title: "Propiedad",
+        text: info.value,
+        icon: "success",
+      });
       setTimeout(() => {
         info.value = "";
       }, 2000);
     } catch (error: any) {
-      console.error("Error al eliminar la propiedad:", error);
+      info.value = error.response.data.message;
+      Swal.fire({
+        title: "Error",
+        text: info.value,
+        icon: "error",
+      });
+      setTimeout(() => {
+        router.push({ name: "login" });
+      },1500);
     }
   }
 };
@@ -50,9 +74,6 @@ onMounted(() => {
 
 //llamada a otro componente con link
 const router = useRouter();
-const verDetalles = (id: number) => {
-  router.push({ name: "PropiedadDetalles", params: { id } });
-};
 
 const addpropiedad = () => {
   router.push({ name: "dashboard-addpropiedad" });
@@ -65,9 +86,9 @@ const addTarifa = (id: number) => {
 <template>
   <div>
     <div class="addPropiedad">
-      <button @click="addpropiedad" class="btn btn-info m-2">
-        Agregar Propiedad
-      </button>
+      <a class="addpropiedad" @click="addpropiedad">
+        <PlusCircleIcon class="icono__agregar" /> AGREGAR PROPIEDAD
+      </a>
       <p :class="{ info: info != '' }">{{ info }}</p>
     </div>
     <table class="tabla-propiedades">
@@ -86,7 +107,6 @@ const addTarifa = (id: number) => {
       </thead>
       <tbody>
         <tr v-for="propiedad in propiedades" :key="propiedad.id">
-          <!--        <td>{{ propiedad.id }}</td>-->
           <td>{{ propiedad.titulo }}</td>
           <td>
             <img
@@ -107,12 +127,9 @@ const addTarifa = (id: number) => {
             >
               Agregar Tarifa
             </button>
-            <button
-              @click="eliminarPropiedad(propiedad.id)"
-              class="btn btn-danger btn-sm m-2"
-            >
-              Eliminar Propiedad
-            </button>
+            <a @click="eliminarPropiedad(propiedad.id)">
+              <TrashIcon class="icono__delete" />
+            </a>
           </td>
         </tr>
         <tr v-if="propiedades.length === 0">
@@ -162,5 +179,22 @@ const addTarifa = (id: number) => {
   text-align: center;
   color: #999;
   font-style: italic;
+}
+.icono__delete {
+  width: 28px;
+  cursor: pointer;
+  color: red;
+}
+.icono__agregar {
+  width: 48px;
+  height: 48px;
+  color: #3498db;
+  margin: 10px;
+  cursor: pointer;
+}
+.addpropiedad {
+  font-family: Oswald, sans-serif;
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>

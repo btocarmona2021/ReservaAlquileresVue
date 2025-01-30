@@ -2,6 +2,9 @@
 import api from "@/axios/axios.ts";
 import { onMounted, ref } from "vue";
 import type { Tarifa } from "@/interfaces/Tarifa.ts";
+import { TrashIcon } from "@heroicons/vue/24/solid";
+import Swal from "sweetalert2";
+import router from "@/router";
 
 // Estado para almacenar las tarifas
 const tarifas = ref<Tarifa[]>([]);
@@ -24,7 +27,18 @@ onMounted(() => {
 });
 
 const eliminarTarifa = async (id: number) => {
-  if (confirm("¿Estás seguro de que deseas eliminar esta tarifa?")) {
+  const result =await Swal.fire({
+    title: "Eliminar Tarifa",
+    text: "¿Estás seguro de que deseas eliminar esta tarifa?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, eliminar tarifa",
+    cancelButtonText: "No, cancelar",
+  });
+
+  if (result.isConfirmed) {
     try {
       // Llamada al endpoint para eliminar el usuario
       const respuesta = await api.delete(`tarifa/${id}`, {
@@ -37,7 +51,16 @@ const eliminarTarifa = async (id: number) => {
         info.value = "";
       }, 2000);
     } catch (error) {
-      console.error("Error al eliminar el usuario:", error);
+            info.value = error.response.data.message;
+      Swal.fire({
+        title: "Error",
+        text: info.value,
+        icon: "error",
+      });
+      setTimeout(() => {
+        router.push({ name: "login" });
+      },1500);
+  
     }
   }
 };
@@ -91,12 +114,9 @@ const eliminarTarifa = async (id: number) => {
 
           <td>
             <!--          <button @click="actualizarTarifa(tarifa.id)" class="tabla-btn actualizar-btn">Actualizar</button>-->
-            <button
-              @click="eliminarTarifa(tarifa.id)"
-              class="btn btn-sm btn-danger"
-            >
-              Eliminar
-            </button>
+            <a @click="eliminarTarifa(tarifa.id)">
+              <TrashIcon class="icono__delete" />
+            </a>
           </td>
         </tr>
         <tr v-if="tarifas.length === 0">
@@ -154,5 +174,10 @@ const eliminarTarifa = async (id: number) => {
   padding: 5px 10px;
   width: 250px;
   margin: 2px;
+}
+.icono__delete {
+  width: 28px;
+  cursor: pointer;
+  color: red;
 }
 </style>

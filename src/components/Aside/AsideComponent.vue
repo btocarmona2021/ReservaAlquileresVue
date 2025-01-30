@@ -6,6 +6,7 @@ import {
     CurrencyDollarIcon,
     CalendarDateRangeIcon,
     UserGroupIcon,
+    ChatBubbleLeftRightIcon,
 } from "@heroicons/vue/24/solid";
 </script>
 
@@ -28,6 +29,9 @@ import {
         </router-link>
         <router-link class="btn btn-secondary text-start" to="/dashboard/usuarios"
             ><UserGroupIcon class="icono__check" />Usuarios
+        </router-link>
+        <router-link class="btn btn-secondary text-start" to="/dashboard/comentarios"
+            ><ChatBubbleLeftRightIcon class="icono__check" />Comentarios
         </router-link>
         <!-- Agrega más enlaces según tus necesidades -->
     </aside>

@@ -4,19 +4,16 @@ import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import type { Propiedad } from "@/interfaces/Propiedad.ts";
 
-// Estado para almacenar las propiedades
 const propiedades = ref<Propiedad[]>([]);
 
-// Función para obtener las propiedades desde la API
 const obtenerPropiedades = async () => {
   try {
     const respuesta = await api.get("propiedad", {
       withCredentials: true,
     });
-    // Aseguramos que cada propiedad tenga un campo `hover` para manejar el hover individual
     propiedades.value = respuesta.data.map((propiedad) => ({
       ...propiedad,
-      hover: false, // Agregar el campo hover a cada propiedad
+      hover: false,
     }));
   } catch (error) {
     console.log("Error al obtener propiedades: ", error);
@@ -27,7 +24,6 @@ onMounted(() => {
   obtenerPropiedades();
 });
 
-// Llamada a otro componente con link
 const router = useRouter();
 const verDetalles = (id: number) => {
   router.push({ name: "PropiedadDetalles", params: { id } });
@@ -57,6 +53,7 @@ const verDetalles = (id: number) => {
                 object-fit: cover;
                 transition: transform 0.3s ease-in-out;
               "
+              @click="verDetalles(propiedad.id)"
               @mouseover="propiedad.hover = true"
               @mouseleave="propiedad.hover = false"
               :style="{
