@@ -46,15 +46,21 @@ const eliminarReserva = async (id: number) => {
         title: "Eliminar reserva",
         text: info.value,
         icon: "success",
-        timer:3000,
-        timerProgressBar:true,
-
+        timer: 3000,
+        timerProgressBar: true,
       });
       setTimeout(() => {
         info.value = "";
       }, 2000);
-    } catch (error) {
-      console.error("Error al eliminar la reserva:", error);
+    } catch (error: any) {
+      info.value = error.response.data.message;
+      Swal.fire({
+        title: "Error",
+        text: info.value,
+        icon: "error",
+        timer: 3000,
+        timerProgressBar: true,
+      });
     }
   }
 };
@@ -95,12 +101,12 @@ const actualizarReserva = async (ev: Event, id: number) => {
 
       info.value = respuesta.data.message;
       Swal.fire({
-        title:'Actualizar',
-        text:info.value,
-        icon:'info',
-        timer:3000,
-        timerProgressBar:true,
-      })
+        title: "Actualizar",
+        text: info.value,
+        icon: "info",
+        timer: 3000,
+        timerProgressBar: true,
+      });
 
       setTimeout(() => {
         info.value = "";
@@ -111,10 +117,11 @@ const actualizarReserva = async (ev: Event, id: number) => {
         title: "Error",
         text: info.value,
         icon: "error",
+        timer: 2500,
+        timerProgressBar: true,
       });
       setTimeout(() => {
         info.value = "";
-        router.push({ name: "login" });
       }, 2000);
     }
   } else {
@@ -134,6 +141,7 @@ const actualizarReserva = async (ev: Event, id: number) => {
     <table class="tabla-reservas">
       <thead>
         <tr>
+          <th>Solicitado</th>
           <th>Cliente</th>
           <th>Propiedad</th>
           <th>Fecha Inicio</th>
@@ -141,17 +149,28 @@ const actualizarReserva = async (ev: Event, id: number) => {
           <th>Dias</th>
           <th>Precio total</th>
           <th>Estado</th>
-          <th></th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="reserva in reservas" :key="reserva.id">
           <td>
+            {{
+              reserva.fecha_pedido.split("T")[0].split("-").reverse().join("-")
+            }}
+          </td>
+          <td>
             {{ reserva.usuario.nombre + " " + reserva.usuario.apellido }}
           </td>
           <td>{{ reserva.propiedade.titulo }}</td>
-          <td>{{ reserva.fecha_inicio.split("T")[0] }}</td>
-          <td>{{ reserva.fecha_fin.split("T")[0] }}</td>
+          <td>
+            {{
+              reserva.fecha_inicio.split("T")[0].split("-").reverse().join("-")
+            }}
+          </td>
+          <td>
+            {{ reserva.fecha_fin.split("T")[0].split("-").reverse().join("-") }}
+          </td>
           <td>{{ reserva.dias_reserva }}</td>
           <td>$ {{ reserva.precio_total }}</td>
           <td
@@ -180,7 +199,7 @@ const actualizarReserva = async (ev: Event, id: number) => {
           </td>
           <td>
             <a @click="eliminarReserva(reserva.id)">
-              <TrashIcon class="icono__delete" />
+              <TrashIcon class="icono__agregar" />
             </a>
           </td>
         </tr>
@@ -277,8 +296,8 @@ const actualizarReserva = async (ev: Event, id: number) => {
   color: red;
 }
 .icono__agregar {
-  width: 48px;
-  height: 48px;
+  width: 32px;
+  height: 32px;
   color: #3498db;
   margin: 10px;
   cursor: pointer;

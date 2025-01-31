@@ -107,7 +107,7 @@ const addcomodidad = () => {
               Actualizar
             </button>
             <a @click="eliminarComodidad(comodidad.id)">
-              <TrashIcon class="icono__delete" />
+              <TrashIcon class="icono__agregar" />
             </a>
           </td>
         </tr>
@@ -176,8 +176,8 @@ const addcomodidad = () => {
   color: red;
 }
 .icono__agregar {
-  width: 48px;
-  height: 48px;
+  width: 32px;
+  height: 32px;
   color: #3498db;
   margin: 10px;
   cursor: pointer;

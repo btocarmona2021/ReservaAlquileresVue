@@ -3,7 +3,12 @@ import api from "@/axios/axios.ts";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import type { Propiedad } from "@/interfaces/Propiedad.ts";
-import { TrashIcon, PlusCircleIcon } from "@heroicons/vue/24/solid";
+import {
+  TrashIcon,
+  PlusCircleIcon,
+  PhotoIcon,
+  CurrencyDollarIcon,
+} from "@heroicons/vue/24/solid";
 import Swal from "sweetalert2";
 
 //Estado para almacenar las propiedades
@@ -63,7 +68,7 @@ const eliminarPropiedad = async (id: number) => {
       });
       setTimeout(() => {
         router.push({ name: "login" });
-      },1500);
+      }, 1500);
     }
   }
 };
@@ -78,8 +83,38 @@ const router = useRouter();
 const addpropiedad = () => {
   router.push({ name: "dashboard-addpropiedad" });
 };
-const addTarifa = (id: number) => {
-  router.push({ name: "dashboard-addtarifa", params: { id } });
+const addTarifa = async (id: number) => {
+  const result = await Swal.fire({
+    title: "Agregar tarifa nueva",
+    text: "Estas a punto de agregar una nueva tarifa a la pripiedad.",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, agregar tarifa",
+    cancelButtonText: "No, cancelar",
+  });
+  if (result.isConfirmed) {
+    router.push({ name: "dashboard-addtarifa", params: { id } });
+  }
+};
+
+const agregarImagenes = async (id:number) => {
+  const result = await Swal.fire({
+    title: "Agregar imagenes",
+    text: "Estas a punto de agregar imagenes a la propiedad.",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, agregar imagenes",
+    cancelButtonText: "No, cancelar",
+  });
+
+  if (result.isConfirmed) {
+    router.push({name:'dashboard-addimagenes', params:{id}});
+  }
+
 };
 </script>
 
@@ -120,15 +155,15 @@ const addTarifa = (id: number) => {
           <td>{{ propiedad.precio_por_noche }}</td>
           <td>{{ propiedad.capacidad_personas }}</td>
           <td>{{ propiedad.tipo_propiedad }}</td>
-          <td>
-            <button
-              @click="addTarifa(propiedad.id)"
-              class="btn btn-info btn-sm"
-            >
-              Agregar Tarifa
-            </button>
+          <td class="d-flex justify-content-center align-items-center">
+            <a @click="agregarImagenes(propiedad.id)">
+              <PhotoIcon class="icono__agregar" />
+            </a>
+            <a @click="addTarifa(propiedad.id)"
+              ><CurrencyDollarIcon class="icono__agregar" />
+            </a>
             <a @click="eliminarPropiedad(propiedad.id)">
-              <TrashIcon class="icono__delete" />
+              <TrashIcon class="icono__agregar" />
             </a>
           </td>
         </tr>
@@ -180,14 +215,9 @@ const addTarifa = (id: number) => {
   color: #999;
   font-style: italic;
 }
-.icono__delete {
-  width: 28px;
-  cursor: pointer;
-  color: red;
-}
 .icono__agregar {
-  width: 48px;
-  height: 48px;
+  width: 32px;
+  height: 32px;
   color: #3498db;
   margin: 10px;
   cursor: pointer;

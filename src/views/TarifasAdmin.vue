@@ -60,7 +60,7 @@ const eliminarTarifa = async (id: number) => {
       setTimeout(() => {
         router.push({ name: "login" });
       },1500);
-  
+
     }
   }
 };
@@ -115,7 +115,7 @@ const eliminarTarifa = async (id: number) => {
           <td>
             <!--          <button @click="actualizarTarifa(tarifa.id)" class="tabla-btn actualizar-btn">Actualizar</button>-->
             <a @click="eliminarTarifa(tarifa.id)">
-              <TrashIcon class="icono__delete" />
+              <TrashIcon class="icono__agregar" />
             </a>
           </td>
         </tr>
@@ -175,9 +175,11 @@ const eliminarTarifa = async (id: number) => {
   width: 250px;
   margin: 2px;
 }
-.icono__delete {
-  width: 28px;
+.icono__agregar {
+  width: 32px;
+  height: 32px;
+  color: #3498db;
+  margin: 10px;
   cursor: pointer;
-  color: red;
 }
 </style>

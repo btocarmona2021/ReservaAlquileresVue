@@ -136,7 +136,7 @@ const eliminarOpinion = async (id: number) => {
           <td>{{ new Date(opinion.fecha_opinion).toLocaleDateString() }}</td>
           <td>
             <a @click="eliminarOpinion(opinion.id)" class="">
-              <TrashIcon class="icono__delete" />
+              <TrashIcon class="icono__agregar" />
             </a>
           </td>
         </tr>
@@ -227,9 +227,11 @@ const eliminarOpinion = async (id: number) => {
   text-transform: uppercase;
 }
 
-.icono__delete {
-  width: 28px;
+.icono__agregar {
+  width: 32px;
+  height: 32px;
+  color: #3498db;
+  margin: 10px;
   cursor: pointer;
-  color: red;
 }
 </style>

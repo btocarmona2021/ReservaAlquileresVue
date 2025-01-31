@@ -18,6 +18,8 @@ import AssignComodidad from '@/views/AssignComodidad.vue';
 import ReservasAdmin from '@/views/ReservasAdmin.vue';
 import AddReserva from '@/views/AddReserva.vue';
 import OpinionesAdmin from '@/views/OpinionesAdmin.vue';
+import AddImagenes from '@/views/AddImagenes.vue';
+import ImagenesAdmin from '@/views/ImagenesAdmin.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -116,6 +118,16 @@ const router = createRouter({
           path: 'comentarios',
           name: 'dashboard-comentarios',
           component: OpinionesAdmin,
+        },
+        {
+          path: 'imagenes/:id',
+          name: 'dashboard-addimagenes',
+          component: AddImagenes,
+        },
+        {
+          path: 'imagenes',
+          name: 'dashboard-imagenes',
+          component: ImagenesAdmin,
         },
         // Agrega más rutas hijas según sea necesario
       ],

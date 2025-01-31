@@ -63,17 +63,25 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="contenedor">
+  <div class="contenedor d-flex justify-content-between align-items-center">
     <label for="propiedad_id">Seleccione una propiedad</label>
     <select class="form-control w-75" v-model="propiedad_id" id="propiedad_id">
-      <option v-for="propiedad in propiedades" :key="propiedad.id" :value="propiedad.id">
+      <option
+        v-for="propiedad in propiedades"
+        :key="propiedad.id"
+        :value="propiedad.id"
+      >
         {{ propiedad.titulo }}
       </option>
     </select>
 
     <label for="comodidad_id">Seleccione una comodidad</label>
     <select class="form-control w-75" v-model="comodidad_id" id="comodidad_id">
-      <option v-for="comodidad in comodidades" :value="comodidad.id">
+      <option
+        v-for="comodidad in comodidades"
+        :key="comodidad.id"
+        :value="comodidad.id"
+      >
         {{ comodidad.nombre }}
       </option>
     </select>

@@ -3,7 +3,7 @@ import api from "@/axios/axios.ts";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import type { Usuario } from "@/interfaces/Usuario.ts"; // Asegúrate de tener esta interfaz definida
-import { PlusCircleIcon } from "@heroicons/vue/24/solid";
+import { PlusCircleIcon, TrashIcon } from "@heroicons/vue/24/solid";
 import Swal from "sweetalert2";
 
 // Estado para almacenar los usuarios
@@ -113,12 +113,9 @@ const addusuario = () => {
             >
               Ver Detalles
             </button>
-            <button
-              @click="eliminarUsuario(usuario.id)"
-              class="btn btn-sm btn-danger m-2"
-            >
-              Eliminar
-            </button>
+            <a @click="eliminarUsuario(usuario.id)">
+              <TrashIcon class="icono__agregar" />
+            </a>
           </td>
         </tr>
         <tr v-if="usuarios.length === 0">
@@ -190,8 +187,8 @@ const addusuario = () => {
   margin: 2px;
 }
 .icono__agregar {
-  width: 48px;
-  height: 48px;
+  width: 32px;
+  height: 32px;
   color: #3498db;
   margin: 10px;
   cursor: pointer;

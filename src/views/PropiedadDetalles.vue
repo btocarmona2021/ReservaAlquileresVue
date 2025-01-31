@@ -349,7 +349,7 @@ onMounted(() => {
     <div class="container mt-4">
       <div class="row justify-content-center">
         <div
-          v-for="(imagen, index) in propiedad?.imagenes_propiedads.slice(0, 12)"
+          v-for="(imagen, index) in propiedad?.imagenes_propiedads.slice(0, 18)"
           :key="imagen.id"
           class="col-12 col-sm-4 col-md-2 mb-3"
         >
@@ -372,7 +372,7 @@ onMounted(() => {
 
     <!-- Modal -->
     <div
-      v-for="(imagen, index) in propiedad?.imagenes_propiedads.slice(0, 5)"
+      v-for="(imagen, index) in propiedad?.imagenes_propiedads"
       :key="'modal-' + index"
     >
       <div
@@ -382,7 +382,7 @@ onMounted(() => {
         aria-labelledby="'modalImagenLabel' + index"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
+        <div class="modal-dialog w-50">
           <div class="modal-content">
             <div class="modal-header">
               <button
@@ -587,6 +587,15 @@ onMounted(() => {
                       <img src="../../public/email.png" alt="WhatsApp" />
                     </a>
                   </div>
+                </div>
+                <div>
+                  <p class="cancelacion">
+                    <strong>Política de Cancelación</strong> Una vez realizada
+                    la reserva, en caso de cancelación, el monto abonado en
+                    concepto de seña no será reembolsado bajo ninguna
+                    circunstancia. Al confirmar su reserva, el cliente acepta
+                    esta política y las condiciones establecidas.
+                  </p>
                 </div>
               </div>
             </div>
@@ -848,5 +857,9 @@ onMounted(() => {
 .fc-col-header-cell-cushion {
   text-decoration: none !important;
   color: #333333 !important;
+}
+.cancelacion {
+  padding: 10px;
+  font-size: 9px;
 }
 </style>

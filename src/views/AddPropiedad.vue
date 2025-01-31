@@ -84,17 +84,6 @@ const actualizarImagen = (event: Event) => {
         placeholder="Ingresa la ubicacion de la propiedad"
       />
 
-      <label for="precio_por_noche">Precio por noche</label>
-      <input
-        type="text"
-        class="form-control"
-        pattern="^\d+(\.\d{1,2})?$"
-        v-model="precio_por_noche"
-        id="precio_por_noche"
-        placeholder="Ingresa el precio por noche"
-        required
-      />
-
       <label for="capacidad_personas">Capacidad de personas</label>
       <input
         class="form-control"

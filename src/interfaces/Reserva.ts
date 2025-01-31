@@ -5,6 +5,7 @@ export interface Reserva {
   fecha_inicio: string;
   fecha_fin: string;
   estado: string;
+  fecha_pedido:string;
   precio_total: string;
   dias_reserva: number;
   usuario: Usuario;
