@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import api from "@/axios/axios.ts";
+import { PhotoIcon, SunIcon } from "@heroicons/vue/24/solid";
 
 const errorEncontrado = ref("");
 
@@ -40,16 +41,34 @@ const actualizarImagen = (event: Event) => {
 
 <template>
   <div class="form__addcomodidad">
-    <form action="" @submit="agregarPropiedad">
+    <form
+      class="d-flex justify-content-center align-items-center"
+      action=""
+      @submit="agregarPropiedad"
+    >
       <label for="nombre">Nombre de la comodidad</label>
-      <input
-        class="form-control"
-        type="text"
-        v-model="nombre"
-        id="nombre"
-        placeholder="Ingresa el nombre de la comodidad"
-      />
+      <div class="d-flex w-75">
+        <SunIcon class="icono__deco" />
+        <input
+          class="form-control"
+          type="text"
+          v-model="nombre"
+          id="nombre"
+          placeholder="Ingresa el nombre de la comodidad"
+        />
+      </div>
 
+      <label for="imagen_principal">Selecciona una o mas imagenes <span style="color: red;">*</span> </label>
+      <div class="d-flex w-75">
+        <PhotoIcon class="icono__deco" />
+        <input
+          class="form-control"
+          type="file"
+          @change="actualizarImagen"
+          id="imagen_principal"
+          accept="image/png"
+        />
+      </div>
       <p
         :class="{
           correcto: errorEncontrado == 'Comodidad creada exitosamente',
@@ -59,15 +78,6 @@ const actualizarImagen = (event: Event) => {
       >
         {{ errorEncontrado }}
       </p>
-
-      <input
-        class="form-control"
-        type="file"
-        @change="actualizarImagen"
-        id="imagen_principal"
-        accept="image/png"
-      />
-
       <input
         class="btn btn-outline-dark"
         type="submit"
@@ -99,18 +109,6 @@ select {
   font-family: Oswald, sans-serif;
   font-size: 1.1em;
 }
-
-.error {
-  color: wheat;
-  background-color: darkred;
-  padding: 5px;
-  font-size: 0.8em;
-}
-
-.correcto {
-  background-color: darkgreen;
-}
-
 .disabled {
   display: none;
 }

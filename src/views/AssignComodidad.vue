@@ -3,20 +3,26 @@ import { onMounted, ref } from "vue";
 import type { Propiedad } from "@/interfaces/Propiedad.ts";
 import api from "@/axios/axios.ts";
 import type { Comodidad } from "@/interfaces/Comodidad.ts";
+import { useRoute } from "vue-router";
+import { HomeIcon, SunIcon } from "@heroicons/vue/24/solid";
 
-const propiedad_id = ref("");
+const propiedad_id = ref();
 const comodidad_id = ref("");
-const propiedades = ref<Propiedad[]>([]);
+const propiedad = ref<Propiedad | null>(null);
 const comodidades = ref<Comodidad[]>([]);
 const errorEncontrado = ref("");
 
 //funcion para obtener las propiedades desde la Api
-const obtenerPropiedades = async () => {
+const obtenerPropiedad = async () => {
   try {
-    const respuesta = await api.get("propiedad", {
+    const id = useRoute().params.id;
+    const respuesta = await api.get(`propiedad/${id}`, {
       withCredentials: true,
     });
-    propiedades.value = respuesta.data;
+    propiedad.value = respuesta.data;
+    if (propiedad.value) {
+      propiedad_id.value = propiedad.value.id;
+    }
   } catch (error) {
     console.log(error);
   }
@@ -57,34 +63,40 @@ const asignarComodidad = async () => {
 };
 
 onMounted(() => {
-  obtenerPropiedades();
+  obtenerPropiedad();
   obtenerComodidades();
 });
 </script>
 
 <template>
   <div class="contenedor d-flex justify-content-between align-items-center">
-    <label for="propiedad_id">Seleccione una propiedad</label>
-    <select class="form-control w-75" v-model="propiedad_id" id="propiedad_id">
-      <option
-        v-for="propiedad in propiedades"
-        :key="propiedad.id"
-        :value="propiedad.id"
-      >
-        {{ propiedad.titulo }}
-      </option>
-    </select>
+   <label for="propiedad">Propiedad</label>
+    <div class="d-flex w-75">
+      <HomeIcon class="icono__deco"/>
+      <input
+        type="text"
+        class="form-control"
+        :value="propiedad?.titulo"
+        name="propiedad"
+        readonly="true"
+        id="propiedad"
+      />
+    </div>
 
     <label for="comodidad_id">Seleccione una comodidad</label>
-    <select class="form-control w-75" v-model="comodidad_id" id="comodidad_id">
-      <option
-        v-for="comodidad in comodidades"
-        :key="comodidad.id"
-        :value="comodidad.id"
-      >
-        {{ comodidad.nombre }}
-      </option>
-    </select>
+    <div class="d-flex w-75">
+      <SunIcon class="icono__deco"/>
+      <select class="form-control" v-model="comodidad_id" id="comodidad_id">
+        <option value="" selected>Seleccione la comodidad</option>
+        <option
+          v-for="comodidad in comodidades"
+          :key="comodidad.id"
+          :value="comodidad.id"
+        >
+          {{ comodidad.nombre }}
+        </option>
+      </select>
+    </div>
     <p
       :class="{
         correcto:
@@ -110,7 +122,7 @@ onMounted(() => {
 <style scoped>
 .contenedor {
   max-width: 500px;
-  height: 300px;
+  height: 340px;
   background-color: #115291;
   color: whitesmoke;
   display: flex;
@@ -153,4 +165,5 @@ select {
   border-radius: 5px;
   box-shadow: 0 0 3px 2px #222;
 }
+
 </style>

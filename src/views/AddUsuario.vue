@@ -57,10 +57,15 @@ const actualizarImagen = (event: Event) => {
 </script>
 
 <template>
-  <div class="form__addusuario">
-    <form action="" @submit="agregarUsuario">
+  <div class="form__addusuario form-control">
+    <form
+      class="d-flex flex-column justify-content-center align-items-center w-75 mx-auto"
+      action=""
+      @submit="agregarUsuario"
+    >
       <label for="nombre">Nombre del usuario</label>
       <input
+        class="form-control"
         type="text"
         v-model="nombre"
         id="nombre"
@@ -69,6 +74,7 @@ const actualizarImagen = (event: Event) => {
 
       <label for="apellido">Apellido del usuario</label>
       <input
+        class="form-control"
         type="text"
         v-model="apellido"
         id="apellido"
@@ -77,14 +83,24 @@ const actualizarImagen = (event: Event) => {
 
       <label for="email">Email del usuario</label>
       <input
+        class="form-control"
         type="email"
         v-model="email"
         id="email"
         placeholder="Ingresa el email del usuario"
       />
 
+      <label for="contrasena_encriptada">Ingresa el password</label>
+      <input
+        class="form-control"
+        type="text"
+        v-model="contrasena_encriptada"
+        id="contrasena_encriptada"
+        placeholder="Ingresa el password"
+      />
       <label for="telefono">Telefono del usuario</label>
       <input
+        class="form-control"
         type="text"
         v-model="telefono"
         id="telefono"
@@ -93,25 +109,23 @@ const actualizarImagen = (event: Event) => {
 
       <label for="direccion">Direccion del usuario</label>
       <input
+        class="form-control"
         type="text"
         v-model="direccion"
         id="direccion"
         placeholder="Ingresa la direccion del usuario"
       />
 
-      <label for="contrasena_encriptada">Ingresa el password</label>
+      <label for="foto_perfil">Carga la imagen de perfil</label>
       <input
-        type="text"
-        v-model="contrasena_encriptada"
-        id="contrasena_encriptada"
-        placeholder="Ingresa el password"
+        class="form-control"
+        type="file"
+        @change="actualizarImagen"
+        id="foto_perfil"
       />
 
-      <label for="foto_perfil">Carga la imagen de perfil</label>
-      <input type="file" @change="actualizarImagen" id="foto_perfil" />
-
       <label for="tipo_usuario">Elije el Rol del usuario:</label>
-      <select v-model="tipo_usuario" id="tipo_usuario">
+      <select class="form-control" v-model="tipo_usuario" id="tipo_usuario">
         <option value="cliente">cliente</option>
         <option value="administrador">administrador</option>
       </select>
@@ -124,7 +138,12 @@ const actualizarImagen = (event: Event) => {
       >
         {{ errorEncontrado }}
       </p>
-      <input class="form__btn" type="submit" value="GUARDAR USUARIO" />
+
+      <input
+        class="btn btn-outline-dark"
+        type="submit"
+        value="GUARDAR USUARIO"
+      />
     </form>
   </div>
 </template>

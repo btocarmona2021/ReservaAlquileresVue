@@ -2,7 +2,7 @@
 import { onMounted, ref } from "vue";
 import api from "@/axios/axios.ts";
 import Swal from "sweetalert2";
-import { TrashIcon } from "@heroicons/vue/24/solid";
+import { HomeIcon, StarIcon, TrashIcon, UserCircleIcon } from "@heroicons/vue/24/solid";
 import type { Opiniones } from "@/interfaces/Opinion";
 
 const Opiniones = ref<Opiniones[]>([]);
@@ -62,54 +62,6 @@ const eliminarOpinion = async (id: number) => {
   } else {
   }
 };
-
-// const addReserva = () => {
-//   router.push({ name: "dashboard-addreserva" });
-// };
-
-// const actualizarReserva = async (ev: Event, id: number) => {
-//   const elemento = ev.target as HTMLSelectElement;
-//   const valorAnterior = elemento.value; // Guardamos el valor antes de cambiar
-
-//   // Usamos sweetalert2 para la confirmación
-//   const result = await Swal.fire({
-//     title: '¿Estás seguro de que deseas actualizar esta reserva?',
-//     text: 'Este cambio será permanente.',
-//     icon: 'warning',
-//     showCancelButton: true,
-//     confirmButtonColor: '#3085d6',
-//     cancelButtonColor: '#d33',
-//     confirmButtonText: 'Sí, actualizar',
-//     cancelButtonText: 'No, cancelar',
-//   });
-
-//   if (result.isConfirmed) {
-//     // Si el usuario confirma la actualización
-//     try {
-//       const estado = {
-//         estado: elemento.value,
-//       };
-//       await api.patch(`/reserva/${id}`, estado, {
-//         withCredentials: true,
-//       });
-//       obtenerReservas();
-//       info.value = "La reserva ha sido actualizada"; // Mostramos el mensaje
-//       setTimeout(() => {
-//         info.value = "";
-//       }, 2000);
-//     } catch (error:any) {
-//       info.value = error.response.data.message;
-//        setTimeout(() => {
-//         info.value = "";
-//         router.push({name:'login'})
-//       }, 2000);
-
-//     }
-//   } else {
-//     // Si el usuario cancela, restauramos el valor original
-//     elemento.value = valorAnterior === 'pendiente' ? 'confirmada' : 'pendiente';
-//   }
-// };
 </script>
 
 <template>
@@ -128,11 +80,12 @@ const eliminarOpinion = async (id: number) => {
       <tbody>
         <tr v-for="opinion in Opiniones" :key="opinion.id">
           <td>
+            <img class="tabla-imagen" :src="opinion.usuario.foto_perfil" :title="opinion.usuario.nombre">
             {{ opinion.usuario.nombre + " " + opinion.usuario.apellido }}
           </td>
-          <td>{{ opinion.propiedade.titulo }}</td>
+          <td><HomeIcon class="icono__deco "/>{{ opinion.propiedade.titulo }}</td>
           <td class="fs-6">{{ opinion.comentario }}</td>
-          <td>{{ opinion.calificacion }}</td>
+          <td><StarIcon class="icono__deco icono__deco--star"/> {{ opinion.calificacion }}</td>
           <td>{{ new Date(opinion.fecha_opinion).toLocaleDateString() }}</td>
           <td>
             <a @click="eliminarOpinion(opinion.id)" class="">
@@ -140,9 +93,6 @@ const eliminarOpinion = async (id: number) => {
             </a>
           </td>
         </tr>
-        <!-- <tr v-if="usuarios.length === 0">
-          <td colspan="6" class="tabla-vacia">No hay usuarios disponibles</td>
-        </tr> -->
       </tbody>
     </table>
   </div>
@@ -233,5 +183,8 @@ const eliminarOpinion = async (id: number) => {
   color: #3498db;
   margin: 10px;
   cursor: pointer;
+}
+.icono__deco--star{
+  color: rgb(228, 228, 5);
 }
 </style>

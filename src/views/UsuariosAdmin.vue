@@ -3,7 +3,7 @@ import api from "@/axios/axios.ts";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import type { Usuario } from "@/interfaces/Usuario.ts"; // Asegúrate de tener esta interfaz definida
-import { PlusCircleIcon, TrashIcon } from "@heroicons/vue/24/solid";
+import { PlusCircleIcon, TrashIcon, UserIcon } from "@heroicons/vue/24/solid";
 import Swal from "sweetalert2";
 
 // Estado para almacenar los usuarios
@@ -93,7 +93,7 @@ const addusuario = () => {
       <tbody>
         <tr v-for="usuario in usuarios" :key="usuario.id">
           <!--        <td>{{ usuario.id }}</td>-->
-          <td>{{ usuario.nombre }}</td>
+          <td>{{ usuario.nombre }}  {{ usuario.apellido }}</td>
           <td>
             <img
               :src="
@@ -105,7 +105,15 @@ const addusuario = () => {
             />
           </td>
           <td>{{ usuario.email }}</td>
-          <td>{{ usuario.tipo_usuario }}</td>
+          <td>
+            <UserIcon
+              :class="
+                usuario.tipo_usuario === 'cliente'
+                  ? 'icono__agregar green'
+                  : 'icono__agregar red'
+              "
+            />{{ usuario.tipo_usuario }}
+          </td>
           <td>
             <button
               @click="verDetalles(usuario.id)"
@@ -197,5 +205,11 @@ const addusuario = () => {
   font-family: Oswald, sans-serif;
   text-decoration: none;
   cursor: pointer;
+}
+.green {
+  color: orange;
+}
+.red {
+  color: rgb(2, 187, 2);
 }
 </style>

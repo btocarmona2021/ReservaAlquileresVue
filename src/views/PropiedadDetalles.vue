@@ -21,7 +21,7 @@ import {
 import type { PropiedadDetalles } from "@/interfaces/PropiedadDetalles.ts";
 import type { optionCalendar } from "@/interfaces/OptionCalendar.ts";
 import type { Reserva } from "@/interfaces/Reserva.ts";
-import router from "@/router";
+
 
 // Variables y referencias
 const propiedad = ref<PropiedadDetalles | null>(null);
@@ -159,11 +159,12 @@ const reservar = async (start: Date, end: Date) => {
   const result = await Swal.fire({
     title: "Confirmar reserva",
     text: `¿Estás seguro de que deseas reservar desde ${
-      start.toISOString().split("T")[0]
-    } hasta ${end.toISOString().split("T")[0]}?`,
+      start.toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'})
+    } hasta el ${end.toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'})}?`,
     icon: "question",
+    confirmButtonColor: 'darkseagreen',
     showCancelButton: true,
-    confirmButtonText: "Aceptar",
+    confirmButtonText: "Reservar",
     cancelButtonText: "Cancelar",
   });
 

@@ -1,6 +1,17 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import api from "@/axios/axios.ts";
+import {
+  BuildingOffice2Icon,
+  BuildingStorefrontIcon,
+  DocumentArrowDownIcon,
+  HomeIcon,
+  InformationCircleIcon,
+  MapIcon,
+  MapPinIcon,
+  PhotoIcon,
+  UserGroupIcon,
+} from "@heroicons/vue/24/solid";
 
 const errorEncontrado = ref("");
 
@@ -55,63 +66,87 @@ const actualizarImagen = (event: Event) => {
 </script>
 
 <template>
-  <div class="form__addcomodidad">
-    <form action="" @submit="agregarPropiedad">
+  <div
+    class="form__addcomodidad"
+  >
+    <form class="d-flex justify-content-center align-items-center" @submit="agregarPropiedad">
       <label for="titulo">Nombre de la propiedad</label>
-      <input
-        class="form-control"
-        type="text"
-        v-model="titulo"
-        id="titulo"
-        placeholder="Ingresa el nombre de la propiedad"
-      />
+      <div class="d-flex w-75">
+        <HomeIcon class="icono__deco" />
+        <input
+          class="form-control"
+          type="text"
+          v-model="titulo"
+          id="titulo"
+          placeholder="Ingresa el nombre de la propiedad"
+        />
+      </div>
 
       <label for="descripcion">Descripcion de la propiedad</label>
-      <input
-        class="form-control"
-        type="text"
-        v-model="descripcion"
-        id="descripcion"
-        placeholder="Ingresa la descripcion de la propiedad"
-      />
+      <div class="d-flex w-75">
+        <InformationCircleIcon class="icono__deco" />
+        <input
+          class="form-control"
+          type="text"
+          v-model="descripcion"
+          id="descripcion"
+          placeholder="Ingresa la descripcion de la propiedad"
+        />
+      </div>
 
       <label for="ubicacion">Ubicacion de la propiedad</label>
-      <input
-        class="form-control"
-        type="text"
-        v-model="ubicacion"
-        id="ubicacion"
-        placeholder="Ingresa la ubicacion de la propiedad"
-      />
+      <div class="d-flex w-75">
+        <MapPinIcon class="icono__deco" />
+        <input
+          class="form-control"
+          type="text"
+          v-model="ubicacion"
+          id="ubicacion"
+          placeholder="Ingresa la ubicacion de la propiedad"
+        />
+      </div>
 
       <label for="capacidad_personas">Capacidad de personas</label>
-      <input
-        class="form-control"
-        type="number"
-        v-model="capacidad_personas"
-        id="capacidad_personas"
-        min="0"
-        max="10"
-        placeholder="Ingresa la capacidad de personas"
-      />
+      <div class="d-flex w-75">
+        <UserGroupIcon class="icono__deco" />
+        <input
+          class="form-control"
+          type="number"
+          v-model="capacidad_personas"
+          id="capacidad_personas"
+          min="0"
+          max="10"
+          placeholder="Ingresa la capacidad de personas"
+        />
+      </div>
 
       <label for="tipo_propiedad">Elije el tipo de propiedad:</label>
-      <select class="form-control" v-model="tipo_propiedad" id="tipo_propiedad">
-        <option value="departamento">Departamento</option>
-        <option value="casa">Casa</option>
-        <option value="habitacion">Habitacion</option>
-        <option value="cabaña">Cabaña</option>
-      </select>
+      <div class="d-flex w-75">
+        <BuildingStorefrontIcon class="icono__deco" />
+        <select
+          class="form-control"
+          v-model="tipo_propiedad"
+          id="tipo_propiedad"
+        >
+          <option value="departamento">Departamento</option>
+          <option value="casa">Casa</option>
+          <option value="habitacion">Habitacion</option>
+          <option value="cabaña">Cabaña</option>
+        </select>
+      </div>
 
       <label for="imagen_principal"
         >Carga la imagen principal de la propiedad</label
       >
-      <input
-        class="form-control"
-        type="file"
-        @change="actualizarImagen"
-        id="imagen_principal"
-      />
+      <div class="d-flex w-75">
+        <PhotoIcon class="icono__deco" />
+        <input
+          class="form-control"
+          type="file"
+          @change="actualizarImagen"
+          id="imagen_principal"
+        />
+      </div>
 
       <p
         :class="{
@@ -123,7 +158,7 @@ const actualizarImagen = (event: Event) => {
         {{ errorEncontrado }}
       </p>
       <input
-        class="btn btn-outline-dark"
+        class="btn btn-outline-dark w-50"
         type="submit"
         value="GUARDAR PROPIEDAD"
       />

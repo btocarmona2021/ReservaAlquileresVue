@@ -39,6 +39,8 @@ const eliminarReserva = async (id: number) => {
       const respuesta = await api.delete(`/reserva/${id}`, {
         withCredentials: true,
       });
+      console.log();
+
       // Filtrar al usuario eliminado de la lista local
       reservas.value = reservas.value.filter((reserva) => reserva.id !== id);
       info.value = respuesta.data.message;
@@ -156,7 +158,11 @@ const actualizarReserva = async (ev: Event, id: number) => {
         <tr v-for="reserva in reservas" :key="reserva.id">
           <td>
             {{
-              reserva.fecha_pedido.split("T")[0].split("-").reverse().join("-")
+              new Date(reserva.fecha_pedido).toLocaleDateString("es-ES", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+              })
             }}
           </td>
           <td>

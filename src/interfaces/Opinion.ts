@@ -16,4 +16,5 @@ export interface Propiedade {
 export interface Usuario {
   nombre:   string;
   apellido: string;
+  foto_perfil:string;
 }

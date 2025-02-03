@@ -8,7 +8,6 @@ const imagenes = ref<File[] | null>(null);
 const route = useRoute();
 const propiedad_id = route.params.id as string;
 
-
 const agregarImagenes = async (ev: Event) => {
   ev.preventDefault();
   const datos = new FormData();
@@ -21,7 +20,6 @@ const agregarImagenes = async (ev: Event) => {
     const respuesta = await api.post(`/imagen/${propiedad_id}`, datos, {
       withCredentials: true,
     });
-
   } catch (error) {
     console.log(error);
   }
@@ -36,30 +34,34 @@ const actualizarImagenes = (ev: Event) => {
 </script>
 
 <template>
-  <div class="container form__addimagenes">
-    <form
-      class="row d-flex flex-column align-items-center justify-content-center mx-auto"
-      action=""
-      @submit="agregarImagenes"
-    >
-      <PhotoIcon class="icono_imagenes" />
-      <label for="imagen_principal"
-        >Carga las imagenes que creas necesarias para esta propiedad</label
+  <div class="h-100 p-1">
+    <div class="container form__addimagenes">
+      <form
+        class="row d-flex flex-column align-items-center justify-content-center mx-auto"
+        action=""
+        @submit="agregarImagenes"
       >
-      <input
-        class="form-control"
-        type="file"
-        multiple="true"
-        @change="actualizarImagenes"
-        id="imagen"
-      />
-
-      <input
-        class="btn btn-outline-dark"
-        type="submit"
-        value="GUARDAR IMAGENES"
-      />
-    </form>
+        <PhotoIcon class="icono_imagenes" />
+        <label for="imagen_principal"
+          >Carga las imagenes que creas necesarias para esta propiedad</label
+        >
+        <div class="d-flex">
+          <PhotoIcon class="icono__deco" />
+          <input
+            class="form-control"
+            type="file"
+            multiple="true"
+            @change="actualizarImagenes"
+            id="imagen"
+          />
+        </div>
+        <input
+          class="btn btn-outline-dark w-50"
+          type="submit"
+          value="GUARDAR IMAGENES"
+        />
+      </form>
+    </div>
   </div>
 </template>
 

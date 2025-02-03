@@ -2,7 +2,11 @@
 import api from "@/axios/axios.ts";
 import { onMounted, ref } from "vue";
 import type { Tarifa } from "@/interfaces/Tarifa.ts";
-import { TrashIcon } from "@heroicons/vue/24/solid";
+import {
+  CalendarDaysIcon,
+  CurrencyDollarIcon,
+  TrashIcon,
+} from "@heroicons/vue/24/solid";
 import Swal from "sweetalert2";
 import router from "@/router";
 
@@ -27,7 +31,7 @@ onMounted(() => {
 });
 
 const eliminarTarifa = async (id: number) => {
-  const result =await Swal.fire({
+  const result = await Swal.fire({
     title: "Eliminar Tarifa",
     text: "¿Estás seguro de que deseas eliminar esta tarifa?",
     icon: "warning",
@@ -50,8 +54,8 @@ const eliminarTarifa = async (id: number) => {
       setTimeout(() => {
         info.value = "";
       }, 2000);
-    } catch (error) {
-            info.value = error.response.data.message;
+    } catch (error:any) {
+      info.value = error.response.data.message;
       Swal.fire({
         title: "Error",
         text: info.value,
@@ -59,8 +63,7 @@ const eliminarTarifa = async (id: number) => {
       });
       setTimeout(() => {
         router.push({ name: "login" });
-      },1500);
-
+      }, 1500);
     }
   }
 };
@@ -84,8 +87,7 @@ const eliminarTarifa = async (id: number) => {
       </thead>
       <tbody>
         <tr v-for="tarifa in tarifas" :key="tarifa.id">
-          <!--        <td>{{ tarifa.id }}</td>-->
-          <td>
+          <td><HomeIcon class="icono__deco"/>
             {{
               tarifa.propiedade.titulo
                 ? tarifa.propiedade.titulo
@@ -93,6 +95,7 @@ const eliminarTarifa = async (id: number) => {
             }}
           </td>
           <td>
+            <CalendarDaysIcon class="icono__deco" />
             {{
               new Date(tarifa.fecha_inicio).toLocaleDateString("es-ES", {
                 day: "numeric",
@@ -102,6 +105,7 @@ const eliminarTarifa = async (id: number) => {
             }}
           </td>
           <td>
+            <CalendarDaysIcon class="icono__deco" />
             {{
               new Date(tarifa.fecha_fin).toLocaleDateString("es-ES", {
                 day: "numeric",
@@ -110,10 +114,9 @@ const eliminarTarifa = async (id: number) => {
               })
             }}
           </td>
-          <td>{{ tarifa.precio }}</td>
+          <td><CurrencyDollarIcon class="icono__deco" />{{ tarifa.precio }}</td>
 
           <td>
-            <!--          <button @click="actualizarTarifa(tarifa.id)" class="tabla-btn actualizar-btn">Actualizar</button>-->
             <a @click="eliminarTarifa(tarifa.id)">
               <TrashIcon class="icono__agregar" />
             </a>
@@ -181,5 +184,10 @@ const eliminarTarifa = async (id: number) => {
   color: #3498db;
   margin: 10px;
   cursor: pointer;
+}
+.icono__deco {
+  color: rgb(138, 138, 135);
+  width: 20px;
+  margin-right: 5px;
 }
 </style>

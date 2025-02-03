@@ -16,38 +16,35 @@ import {
     <router-link
       class="btn btn-secondary text-start"
       to="/dashboard/propiedades"
-      ><HomeIcon class="icono__check" />Propiedades
+      ><HomeIcon class="icono__deco" />Propiedades
     </router-link>
+
     <router-link
       class="btn btn-secondary text-start"
       to="/dashboard/comodidades"
-      ><WifiIcon class="icono__check" />Comodidades
+      ><WifiIcon class="icono__deco" />Comodidades
     </router-link>
-    <router-link
-      class="btn btn-secondary text-start"
-      to="/dashboard/asigna-comodidad"
-      ><CheckBadgeIcon class="icono__check" />Asignar Comodidad</router-link
-    >
+
     <router-link class="btn btn-secondary text-start" to="/dashboard/tarifas"
-      ><currency-dollar-icon class="icono__check" />Tarifas Vigentes
+      ><currency-dollar-icon class="icono__deco" />Tarifas Vigentes
     </router-link>
+
     <router-link class="btn btn-secondary text-start" to="/dashboard/reservas"
-      ><CalendarDateRangeIcon class="icono__check" />Reservas
+      ><CalendarDateRangeIcon class="icono__deco" />Reservas
     </router-link>
     <router-link class="btn btn-secondary text-start" to="/dashboard/usuarios"
-      ><UserGroupIcon class="icono__check" />Usuarios
+      ><UserGroupIcon class="icono__deco" />Usuarios
     </router-link>
+
     <router-link
       class="btn btn-secondary text-start"
       to="/dashboard/comentarios"
-      ><ChatBubbleLeftRightIcon class="icono__check" />Comentarios
+      ><ChatBubbleLeftRightIcon class="icono__deco" />Comentarios
     </router-link>
-    <router-link
-      class="btn btn-secondary text-start"
-      to="/dashboard/imagenes"
-      ><PhotoIcon class="icono__check" />Imagenes
+
+    <router-link class="btn btn-secondary text-start" to="/dashboard/imagenes"
+      ><PhotoIcon class="icono__deco" />Imagenes
     </router-link>
-    <!-- Agrega más enlaces según tus necesidades -->
   </aside>
 </template>
 

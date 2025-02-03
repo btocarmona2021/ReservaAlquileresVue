@@ -8,8 +8,12 @@ import {
   PlusCircleIcon,
   PhotoIcon,
   CurrencyDollarIcon,
+  SunIcon,
+  UserGroupIcon,
+  MapPinIcon,
 } from "@heroicons/vue/24/solid";
 import Swal from "sweetalert2";
+import { UserIcon } from '@heroicons/vue/24/solid';
 
 //Estado para almacenar las propiedades
 const propiedades = ref<Propiedad[]>([]);
@@ -99,7 +103,7 @@ const addTarifa = async (id: number) => {
   }
 };
 
-const agregarImagenes = async (id:number) => {
+const agregarImagenes = async (id: number) => {
   const result = await Swal.fire({
     title: "Agregar imagenes",
     text: "Estas a punto de agregar imagenes a la propiedad.",
@@ -112,9 +116,25 @@ const agregarImagenes = async (id:number) => {
   });
 
   if (result.isConfirmed) {
-    router.push({name:'dashboard-addimagenes', params:{id}});
+    router.push({ name: "dashboard-addimagenes", params: { id } });
   }
+};
 
+const agregarComodidad = async (id: number) => {
+  const result = await Swal.fire({
+    title: "Asignar comodidad",
+    text: "Estas a punto de asignar comodidades a la propiedad.",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, asignar comodidades",
+    cancelButtonText: "No, cancelar",
+  });
+
+  if (result.isConfirmed) {
+    router.push({ name: "dashboard-asigna-comodidad", params: { id } });
+  }
 };
 </script>
 
@@ -126,10 +146,9 @@ const agregarImagenes = async (id:number) => {
       </a>
       <p :class="{ info: info != '' }">{{ info }}</p>
     </div>
-    <table class="tabla-propiedades">
+    <table class="table tabla-propiedades">
       <thead>
         <tr>
-          <!--        <th>ID</th>-->
           <th>Título</th>
           <th>Imagen</th>
           <th>Descripción</th>
@@ -151,20 +170,25 @@ const agregarImagenes = async (id:number) => {
             />
           </td>
           <td>{{ propiedad.descripcion }}</td>
-          <td>{{ propiedad.ubicacion }}</td>
-          <td>{{ propiedad.precio_por_noche }}</td>
-          <td>{{ propiedad.capacidad_personas }}</td>
+          <td><MapPinIcon class="icono__deco"/>{{ propiedad.ubicacion }}</td>
+          <td><CurrencyDollarIcon class="icono__deco"/> {{ propiedad.precio_por_noche }}</td>
+          <td><UserGroupIcon class="icono__deco"/>{{ propiedad.capacidad_personas }}</td>
           <td>{{ propiedad.tipo_propiedad }}</td>
-          <td class="d-flex justify-content-center align-items-center">
-            <a @click="agregarImagenes(propiedad.id)">
-              <PhotoIcon class="icono__agregar" />
-            </a>
-            <a @click="addTarifa(propiedad.id)"
-              ><CurrencyDollarIcon class="icono__agregar" />
-            </a>
-            <a @click="eliminarPropiedad(propiedad.id)">
-              <TrashIcon class="icono__agregar" />
-            </a>
+          <td>
+            <div class="d-flex justify-content-center align-items-center">
+              <a @click="agregarComodidad(propiedad.id)">
+                <SunIcon class="icono__agregar" />
+              </a>
+              <a @click="agregarImagenes(propiedad.id)">
+                <PhotoIcon class="icono__agregar" />
+              </a>
+              <a @click="addTarifa(propiedad.id)"
+                ><CurrencyDollarIcon class="icono__agregar" />
+              </a>
+              <a @click="eliminarPropiedad(propiedad.id)">
+                <TrashIcon class="icono__agregar" />
+              </a>
+            </div>
           </td>
         </tr>
         <tr v-if="propiedades.length === 0">
@@ -204,6 +228,7 @@ const agregarImagenes = async (id:number) => {
 .tabla-imagen {
   max-width: 80px;
   height: auto;
+  border-radius: 5px;
 }
 
 .tabla-btn:hover {
@@ -219,12 +244,16 @@ const agregarImagenes = async (id:number) => {
   width: 32px;
   height: 32px;
   color: #3498db;
-  margin: 10px;
   cursor: pointer;
 }
 .addpropiedad {
   font-family: Oswald, sans-serif;
   text-decoration: none;
   cursor: pointer;
+}
+.icono__deco{
+  color: rgb(138, 138, 135);
+  width: 20px;
+  margin-right: 5px;
 }
 </style>

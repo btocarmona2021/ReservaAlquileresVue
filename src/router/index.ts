@@ -105,7 +105,7 @@ const router = createRouter({
           component: AddTarifa,
         },
         {
-          path: 'asigna-comodidad',
+          path: 'asigna-comodidad/:id',
           name: 'dashboard-asigna-comodidad',
           component: AssignComodidad,
         },

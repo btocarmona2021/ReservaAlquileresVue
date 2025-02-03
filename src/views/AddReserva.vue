@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import api from "@/axios/axios";
 import type { Propiedad } from "@/interfaces/Propiedad";
+import { CalendarDaysIcon, ClockIcon, HomeIcon } from "@heroicons/vue/24/solid";
 import { onMounted, ref } from "vue";
 
 const propiedades = ref<Propiedad[]>([]);
@@ -26,7 +27,7 @@ onMounted(() => {
 });
 const addReserva = async (ev) => {
   ev.preventDefault();
-  
+
   try {
     const reserva = {
       propiedad_id: propiedad_id.value,
@@ -40,10 +41,8 @@ const addReserva = async (ev) => {
       withCredentials: true,
     });
     console.log(respuesta.data);
-
   } catch (error: any) {
-console.log(error.response.data.message);
-
+    console.log(error.response.data.message);
   }
 };
 </script>
@@ -51,49 +50,61 @@ console.log(error.response.data.message);
 <template>
   <div class="container form__addpropiedad">
     <form
-      class="row d-flex flex-column align-items-center justify-content-center mx-auto"
+      class="row d-flex align-items-center justify-content-center mx-auto"
       action=""
       @submit="addReserva"
     >
       <label for="tipo_propiedad">Elije la propiedad:</label>
 
-      <select
-        class="form-control"
-        name="propiedades"
-        id=""
-        v-model="propiedad_id"
-      >
-        <option
-          v-for="propiedad in propiedades"
-          :key="propiedad.id"
-          :value="propiedad.id"
+      <div class="d-flex">
+        <HomeIcon class="icono__deco" />
+        <select
+          class="form-control"
+          name="propiedades"
+          id=""
+          v-model="propiedad_id"
         >
-          {{ propiedad.titulo }}
-        </option>
-      </select>
+          <option
+            v-for="propiedad in propiedades"
+            :key="propiedad.id"
+            :value="propiedad.id"
+          >
+            {{ propiedad.titulo }}
+          </option>
+        </select>
+      </div>
 
       <label for="fecha_inicio">Seleccione la fecha de inicio</label>
-      <input
-        class="form-control"
-        type="date"
-        v-model="fecha_inicio"
-        id="fecha_inicio"
-      />
+      <div class="d-flex">
+        <CalendarDaysIcon class="icono__deco" />
+        <input
+          class="form-control"
+          type="date"
+          v-model="fecha_inicio"
+          id="fecha_inicio"
+        />
+      </div>
 
       <label for="fecha_fin">Seleccione la fecha fin</label>
-      <input
-        class="form-control"
-        type="date"
-        v-model="fecha_fin"
-        id="fecha_fin"
-      />
+      <div class="d-flex">
+        <CalendarDaysIcon class="icono__deco" />
+        <input
+          class="form-control"
+          type="date"
+          v-model="fecha_fin"
+          id="fecha_fin"
+        />
+      </div>
 
       <label for="estado">Seleccione el estado</label>
-      <select class="form-control" v-model="estado" name="estado" id="estado">
-        <option value="pendiente">Pendiente</option>
-        <option value="confirmada">Confirmada</option>
-        <option value="caencelada">Cancelada</option>
-      </select>
+      <div class="d-flex">
+        <ClockIcon class="icono__deco" />
+        <select class="form-control" v-model="estado" name="estado" id="estado">
+          <option value="pendiente">Pendiente</option>
+          <option value="confirmada">Confirmada</option>
+          <option value="caencelada">Cancelada</option>
+        </select>
+      </div>
 
       <!-- <p
         :class="{
@@ -105,7 +116,7 @@ console.log(error.response.data.message);
         {{ errorEncontrado }}
       </p> -->
       <input
-        class="btn btn-outline-dark mt-3"
+        class="btn btn-outline-dark w-50 mt-3"
         type="submit"
         value="GUARDAR RESERVA"
       />
@@ -143,20 +154,10 @@ console.log(error.response.data.message);
 }
 
 input,
-select {
+select,
+label {
   font-family: Oswald, sans-serif;
   font-size: 1.1em;
-}
-
-.error {
-  color: wheat;
-  background-color: darkred;
-  padding: 5px;
-  font-size: 0.8em;
-}
-
-.correcto {
-  background-color: darkgreen;
 }
 
 .disabled {
